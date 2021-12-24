@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 syn = { version="1.0.83", features=["full", "visit", "extra-traits"] }
-proc-macro2 = { version="1.0.34", feautures= ["procmacro2_semver_exempt", "span-locations"] }
+proc-macro2 = { version="1.0.34", features= ["span-locations"] }
 walkdir = "2.3.2"
+serde = { version="1.0.132", features=["derive"] }
