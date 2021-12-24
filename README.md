@@ -71,7 +71,7 @@ ParsedFile {
 
 # Seralization & Deserialization
 
-All structures in this library implement [Serialize](https://docs.rs/serde/latest/serde/trait.Serialize.html) and [Deserialize](https://docs.rs/serde/latest/serde/trait.Deserialize.html) traits from [https://docs.rs/serde/latest/serde/#]. Because of that you can convert into many data formats supporting serde.
+All structures in this library implement [Serialize](https://docs.rs/serde/latest/serde/trait.Serialize.html) and [Deserialize](https://docs.rs/serde/latest/serde/trait.Deserialize.html) traits from [serde](https://docs.rs/serde/latest/serde/#). Because of that you can convert into many data formats supporting serde.
 
 ## Data formats
 
