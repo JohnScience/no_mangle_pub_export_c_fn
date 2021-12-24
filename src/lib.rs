@@ -53,8 +53,8 @@ impl<'ast> Visit<'ast> for NoManglePubExportCFns {
             .and_then(|abi| abi.name.as_ref())
             .map(|str_lit| str_lit.value())
         {
-            Some(calling_convention) if calling_convention != "C" => return,
-            _ => (),
+            Some(calling_convention) if calling_convention == "C" => (),
+            _ => return,
         };
 
         if !node
