@@ -10,3 +10,6 @@ syn = { version="1.0.83", features=["full", "visit", "extra-traits"] }
 proc-macro2 = { version="1.0.34", features= ["span-locations"] }
 walkdir = "2.3.2"
 serde = { version="1.0.132", features=["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0.73" # For test of JSON serialization
