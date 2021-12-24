@@ -102,6 +102,22 @@ All structures in this library implement [Serialize](https://docs.rs/serde/lates
 - [FlexBuffers], the schemaless cousin of Google's FlatBuffers zero-copy serialization format.
 - [DynamoDB Items], the format used by [rusoto_dynamodb] to transfer data to
   and from DynamoDB.
+
+# License
+
+<sup>
+Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
+2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
+</sup>
+
+<br>
+
+<sub>
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in this crate by you, as defined in the Apache-2.0 license, shall
+be dual licensed as above, without any additional terms or conditions.
+</sub>
+
 [JSON]: https://github.com/serde-rs/json
 [Bincode]: https://github.com/servo/bincode
 [CBOR]: https://github.com/enarx/ciborium
@@ -124,19 +140,3 @@ All structures in this library implement [Serialize](https://docs.rs/serde/lates
 [FlexBuffers]: https://github.com/google/flatbuffers/tree/master/rust/flexbuffers
 [DynamoDB Items]: https://docs.rs/serde_dynamo
 [rusoto_dynamodb]: https://docs.rs/rusoto_dynamodb
-
-
-# License
-
-<sup>
-Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
-2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
-</sup>
-
-<br>
-
-<sub>
-Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in this crate by you, as defined in the Apache-2.0 license, shall
-be dual licensed as above, without any additional terms or conditions.
-</sub>
