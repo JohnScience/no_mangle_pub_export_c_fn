@@ -69,6 +69,63 @@ ParsedFile {
 ]
 ```
 
+# Seralization & Deserialization
+
+All structures in this library implement [Serialize](https://docs.rs/serde/latest/serde/trait.Serialize.html) and [Deserialize](https://docs.rs/serde/latest/serde/trait.Deserialize.html) traits from [https://docs.rs/serde/latest/serde/#]. Because of that you can convert into many data formats supporting serde.
+
+## Data formats
+
+- [JSON], the ubiquitous JavaScript Object Notation used by many HTTP APIs.
+- [Bincode], a compact binary format
+  used for IPC within the Servo rendering engine.
+- [CBOR], a Concise Binary Object Representation designed for small message
+  size without the need for version negotiation.
+- [YAML], a self-proclaimed human-friendly configuration language that ain't
+  markup language.
+- [MessagePack], an efficient binary format that resembles a compact JSON.
+- [TOML], a minimal configuration format used by [Cargo].
+- [Pickle], a format common in the Python world.
+- [RON], a Rusty Object Notation.
+- [BSON], the data storage and network transfer format used by MongoDB.
+- [Avro], a binary format used within Apache Hadoop, with support for schema
+  definition.
+- [JSON5], a superset of JSON including some productions from ES5.
+- [Postcard], a no\_std and embedded-systems friendly compact binary format.
+- [URL] query strings, in the x-www-form-urlencoded format.
+- [Envy], a way to deserialize environment variables into Rust structs.
+  *(deserialization only)*
+- [Envy Store], a way to deserialize [AWS Parameter Store] parameters into
+  Rust structs. *(deserialization only)*
+- [S-expressions], the textual representation of code and data used by the
+  Lisp language family.
+- [D-Bus]'s binary wire format.
+- [FlexBuffers], the schemaless cousin of Google's FlatBuffers zero-copy serialization format.
+- [DynamoDB Items], the format used by [rusoto_dynamodb] to transfer data to
+  and from DynamoDB.
+[JSON]: https://github.com/serde-rs/json
+[Bincode]: https://github.com/servo/bincode
+[CBOR]: https://github.com/enarx/ciborium
+[YAML]: https://github.com/dtolnay/serde-yaml
+[MessagePack]: https://github.com/3Hren/msgpack-rust
+[TOML]: https://github.com/alexcrichton/toml-rs
+[Pickle]: https://github.com/birkenfeld/serde-pickle
+[RON]: https://github.com/ron-rs/ron
+[BSON]: https://github.com/zonyitoo/bson-rs
+[Avro]: https://github.com/flavray/avro-rs
+[JSON5]: https://github.com/callum-oakley/json5-rs
+[Postcard]: https://github.com/jamesmunns/postcard
+[URL]: https://docs.rs/serde_qs
+[Envy]: https://github.com/softprops/envy
+[Envy Store]: https://github.com/softprops/envy-store
+[Cargo]: https://doc.rust-lang.org/cargo/reference/manifest.html
+[AWS Parameter Store]: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html
+[S-expressions]: https://github.com/rotty/lexpr-rs
+[D-Bus]: https://docs.rs/zvariant
+[FlexBuffers]: https://github.com/google/flatbuffers/tree/master/rust/flexbuffers
+[DynamoDB Items]: https://docs.rs/serde_dynamo
+[rusoto_dynamodb]: https://docs.rs/rusoto_dynamodb
+
+
 # License
 
 <sup>
