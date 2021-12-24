@@ -1,0 +1,11 @@
+[package]
+name = "no_mangle_pub_export_c_fn"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+syn = { version="1.0.83", features=["full", "visit", "extra-traits"] }
+proc-macro2 = { version="1.0.34", feautures= ["procmacro2_semver_exempt", "span-locations"] }
+walkdir = "2.3.2"

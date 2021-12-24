@@ -1,0 +1,3 @@
+# https://docs.rs/proc-macro2/1.0.34/proc_macro2/#unstable-features
+[build]
+rustflags = ["--cfg","procmacro2_semver_exempt"]
