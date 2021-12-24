@@ -4,9 +4,8 @@
 // https://doc.rust-lang.org/nomicon/ffi.html#foreign-calling-conventions
 
 use std::io::Read;
-use std::borrow::Cow;
 
-use syn::{ForeignItemFn, visit::Visit, Visibility, spanned::Spanned, parse_file};
+use syn::{visit::Visit, Visibility, spanned::Spanned};
 use proc_macro2::{Span, LineColumn};
 use walkdir::WalkDir;
 
