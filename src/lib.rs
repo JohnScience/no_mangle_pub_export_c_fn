@@ -5,8 +5,8 @@
 
 use std::io::Read;
 
-use serde::{Serialize, Deserialize};
 use proc_macro2::Span;
+use serde::{Deserialize, Serialize};
 use syn::{spanned::Spanned, visit::Visit, Visibility};
 use walkdir::WalkDir;
 
@@ -17,7 +17,7 @@ struct NoManglePubExportCFnEnds {
     start_line: usize,
     start_column: usize,
     end_line: usize,
-    end_column: usize
+    end_column: usize,
 }
 
 impl NoManglePubExportCFnEnds {
@@ -26,7 +26,7 @@ impl NoManglePubExportCFnEnds {
             start_line: span.start().line,
             start_column: span.start().column,
             end_line: span.end().line,
-            end_column: span.end().column
+            end_column: span.end().column,
         }
     }
 }
@@ -40,23 +40,27 @@ struct NoManglePubExportCFns {
 impl<'ast> Visit<'ast> for NoManglePubExportCFns {
     fn visit_item_fn(&mut self, node: &'ast syn::ItemFn) {
         if let Visibility::Public(_) = &node.vis {
+        } else {
             return;
-        }
+        };
 
         // https://doc.rust-lang.org/nomicon/ffi.html#foreign-calling-conventions
-        if let Some(calling_convention) = node
+
+        match node
             .sig
             .abi
             .as_ref()
             .and_then(|abi| abi.name.as_ref())
             .map(|str_lit| str_lit.value())
         {
-            if calling_convention != "C" {
-                return;
-            }
-        }
+            Some(calling_convention) if calling_convention != "C" => return,
+            _ => (),
+        };
 
-        if !node.attrs.iter().all(|attr| attr.path.is_ident("no_mangle"))
+        if !node
+            .attrs
+            .iter()
+            .any(|attr| attr.path.is_ident("no_mangle"))
         {
             return;
         };
