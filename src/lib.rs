@@ -34,18 +34,22 @@ struct NoManglePubExportCFns {
 // https://docs.rs/syn/latest/syn/visit/index.html
 impl<'ast> Visit<'ast> for NoManglePubExportCFns {
     fn visit_item_fn(&mut self, node: &'ast syn::ItemFn) {
-        match &node.vis {
-            Visibility::Public(_) => (),
-            _ => return,
-        };
+        if let Visibility::Public(_) = &node.vis {
+            return;
+        }
 
         // https://doc.rust-lang.org/nomicon/ffi.html#foreign-calling-conventions
-        if let Some(calling_convention)  = node.sig.abi.as_ref()
-        .and_then(|abi| abi.name.as_ref())
-        .map(|str_lit| str_lit.value()) {
-            if calling_convention != "C" { return }
+        if let Some(calling_convention) = node
+            .sig
+            .abi
+            .as_ref()
+            .and_then(|abi| abi.name.as_ref())
+            .map(|str_lit| str_lit.value())
+        {
+            if calling_convention != "C" {
+                return;
+            }
         }
-        
 
         if !node
             .attrs
@@ -56,10 +60,7 @@ impl<'ast> Visit<'ast> for NoManglePubExportCFns {
         };
 
         self.no_mangle_pub_export_c_fn_vec
-            .push(NoManglePubExportCFnEnds::new(&{
-                let span: proc_macro2::Span = node.span();
-                span
-            }));
+            .push(NoManglePubExportCFnEnds::new(&node.span()));
     }
 }
 
