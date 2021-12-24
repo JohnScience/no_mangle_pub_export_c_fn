@@ -57,62 +57,56 @@ impl <'ast> Visit<'ast> for NoManglePubExportCFns {
 }
 
 #[derive(Debug)]
-struct ParsedFile {
+pub struct ParsedFile {
     path: String,
     no_mangle_pub_export_c_fns: NoManglePubExportCFns,
 }
 
-// https://doc.rust-lang.org/cargo/reference/build-scripts.html
-pub fn build_script_main() {
-    // https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-build-scripts
-    // let out_dir = std::env::var("OUT_DIR").unwrap();
-    let crate_root = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+pub fn parse_for_no_mangle_pub_extern_c_fns(crate_root: &str) -> Vec<ParsedFile> {
     // With prior information, the buffer could be preallocated
     let mut buffer = String::new();
+    
     // All errors are skipped. In the hindsight, the solution with ? would be better
-    let no_magle_pub_export_c_fns_from_crate = 
-        WalkDir::new(format!("{}{}src",crate_root, std::path::MAIN_SEPARATOR))
-        .into_iter()
-        // Every entry can be a directory, or a file, or symlink or anything else
-        .filter_map(|entry| entry.ok())
-        .filter_map(|entry| {
-            if entry.file_name().to_string_lossy().ends_with(".rs") { Some(entry) } else { None }
-        })
-        // BufReader is unnecessary bc the files are read only once
-        // https://doc.rust-lang.org/std/io/struct.BufReader.html
-        .filter_map(|rust_file| {
-            let path = rust_file.path();
-            std::fs::File::open(path)
-            .map(|file :std::fs::File| (path.to_string_lossy().into_owned(), file)).ok()
-        })
-        .filter_map(|(path, mut file): (String, std::fs::File)| {
-            file.read_to_string(&mut buffer)
-            .map(|_byted_read| {{
-                    let file = syn::parse_file(&buffer);
-                    buffer.truncate(0);
-                    (path, file)
-                }
-            })
-            .ok()
-        })
-        .filter_map(|(path, res_file) : (String, syn::Result<syn::File>)| {
-            res_file.ok().map(|file| (path, file))
-        })
-        .fold(
-            Vec::<ParsedFile>::new(),
-            |mut parsed_files: Vec<ParsedFile>, (path, file): (String, syn::File)| {
-                parsed_files.push( ParsedFile {
-                    path,
-                    no_mangle_pub_export_c_fns: {
-                        let mut no_mangle_pub_export_c_fns =
-                            NoManglePubExportCFns::default();
-                        no_mangle_pub_export_c_fns.visit_file(&file);
-                        no_mangle_pub_export_c_fns
-                    }
-                });
-                parsed_files
+    WalkDir::new(format!("{}{}src",crate_root, std::path::MAIN_SEPARATOR))
+    .into_iter()
+    // Every entry can be a directory, or a file, or symlink or anything else
+    .filter_map(|entry| entry.ok())
+    .filter_map(|entry| {
+        if entry.file_name().to_string_lossy().ends_with(".rs") { Some(entry) } else { None }
+    })
+    // BufReader is unnecessary bc the files are read only once
+    // https://doc.rust-lang.org/std/io/struct.BufReader.html
+    .filter_map(|rust_file| {
+        let path = rust_file.path();
+        std::fs::File::open(path)
+        .map(|file :std::fs::File| (path.to_string_lossy().into_owned(), file)).ok()
+    })
+    .filter_map(|(path, mut file): (String, std::fs::File)| {
+        file.read_to_string(&mut buffer)
+        .map(|_byted_read| {{
+                let file = syn::parse_file(&buffer);
+                buffer.truncate(0);
+                (path, file)
             }
-        )
-    ; // end of let expression
-    println!("{:#?}", no_magle_pub_export_c_fns_from_crate);
+        })
+        .ok()
+    })
+    .filter_map(|(path, res_file) : (String, syn::Result<syn::File>)| {
+        res_file.ok().map(|file| (path, file))
+    })
+    .fold(
+        Vec::<ParsedFile>::new(),
+        |mut parsed_files: Vec<ParsedFile>, (path, file): (String, syn::File)| {
+            parsed_files.push( ParsedFile {
+                path,
+                no_mangle_pub_export_c_fns: {
+                    let mut no_mangle_pub_export_c_fns =
+                        NoManglePubExportCFns::default();
+                    no_mangle_pub_export_c_fns.visit_file(&file);
+                    no_mangle_pub_export_c_fns
+                }
+            });
+            parsed_files
+        }
+    )
 }
