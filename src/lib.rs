@@ -5,28 +5,33 @@
 
 use std::io::Read;
 
-use proc_macro2::{LineColumn, Span};
+use serde::{Serialize, Deserialize};
+use proc_macro2::Span;
 use syn::{spanned::Spanned, visit::Visit, Visibility};
 use walkdir::WalkDir;
 
 // https://docs.rust-embedded.org/book/interoperability/rust-with-c.html
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 struct NoManglePubExportCFnEnds {
-    start: LineColumn,
-    end: LineColumn,
+    start_line: usize,
+    start_column: usize,
+    end_line: usize,
+    end_column: usize
 }
 
 impl NoManglePubExportCFnEnds {
     fn new(span: &Span) -> Self {
         Self {
-            start: span.start(),
-            end: span.end(),
+            start_line: span.start().line,
+            start_column: span.start().column,
+            end_line: span.end().line,
+            end_column: span.end().column
         }
     }
 }
 
-#[derive(Default, Debug)]
+#[derive(Serialize, Deserialize, Default, Debug)]
 struct NoManglePubExportCFns {
     no_mangle_pub_export_c_fn_vec: Vec<NoManglePubExportCFnEnds>,
 }
@@ -51,10 +56,7 @@ impl<'ast> Visit<'ast> for NoManglePubExportCFns {
             }
         }
 
-        if !node
-            .attrs
-            .iter()
-            .any(|attr| attr.path.is_ident("no_mangle"))
+        if !node.attrs.iter().all(|attr| attr.path.is_ident("no_mangle"))
         {
             return;
         };
@@ -64,7 +66,7 @@ impl<'ast> Visit<'ast> for NoManglePubExportCFns {
     }
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ParsedFile {
     path: String,
     no_mangle_pub_export_c_fns: NoManglePubExportCFns,
