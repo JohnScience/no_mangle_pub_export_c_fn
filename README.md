@@ -1,4 +1,4 @@
-# What is this library for?
+# A library for extracting #\[no_mangle\] pub extern "C" functions
 
 In order to expose a function with C binary interface for interoperability with other programming languages,
 Rust developers should use #\[no_mangle\] attribute and specify ABI for the declared function.
