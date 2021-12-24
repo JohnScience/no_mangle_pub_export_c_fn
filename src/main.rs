@@ -1,4 +1,4 @@
-use no_mangle_pub_export_c_fn::{ParsedFile, parse_for_no_mangle_pub_extern_c_fns};
+use no_mangle_pub_export_c_fn::{parse_for_no_mangle_pub_extern_c_fns, ParsedFile};
 
 mod lib;
 
