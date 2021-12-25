@@ -110,7 +110,7 @@
 //!
 //! # F.A.Q.
 //! * [What are no mangle pub export C functions?](https://docs.rust-embedded.org/book/interoperability/rust-with-c.html#no_mangle)
-//! * Will **this** crate support other [calling conventions](https://doc.rust-lang.org/nomicon/ffi.html#foreign-calling-conventions)? No but some other crate may will.
+//! * Will **this** crate support other [calling conventions](https://doc.rust-lang.org/nomicon/ffi.html#foreign-calling-conventions)? No but some other crate might.
 
 use std::io::Read;
 
