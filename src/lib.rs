@@ -155,7 +155,7 @@ impl LineColumnEnds {
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct NoManglePubExportCFns(pub Vec<LineColumnEnds>);
 
-/// Checks if the given [syn::ItemFn] is a #[no_mangle] pub export "C"` function.
+/// Checks if the given [syn::ItemFn] is a `#[no_mangle] pub export "C"` function.
 ///
 /// Read more about `#[no_mangle] pub export "C"` functions in Rust
 ///     [here](https://docs.rust-embedded.org/book/interoperability/rust-with-c.html#no_mangle).
