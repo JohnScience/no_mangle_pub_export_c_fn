@@ -8,7 +8,7 @@
 //!
 //! # Example
 //!
-//! `main.rs`
+//! `src/main.rs`
 //!
 //! ```
 //! use no_mangle_pub_export_c_fn::{parse_for_no_mangle_pub_extern_c_fns, ParsedFile};
@@ -17,6 +17,15 @@
 //! println!("{:#?}", parsed_files);
 //! ```
 //!
+//! `src/unused.rs`
+//! 
+//! ```
+//! #[no_mangle]
+//! pub extern "C" fn s() {
+//!     // test
+//! }
+//! ```
+//! 
 //! # Output on Windows
 //!
 //! ```text
